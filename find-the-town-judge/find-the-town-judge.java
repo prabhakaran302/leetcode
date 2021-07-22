@@ -1,8 +1,9 @@
 class Solution {
     public int findJudge(int n, int[][] trust) {
-        if(n <= 1)
-            return 1;
-		
+        
+		if (n <= 1)
+			return 1;
+
 		Set<Integer> set = new HashSet<>();
 		int[] inD = new int[n];
 		int max = 0;
@@ -15,12 +16,12 @@ class Solution {
 				jud = t[1];
 			}
 		}
-        
-		if (max == n-1 && !set.contains(jud))
+
+		if (max == n - 1 && !set.contains(jud))
 			return jud;
 
 		return -1;
-	
+
 	
     }
 }
