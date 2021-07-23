@@ -15,43 +15,43 @@
  */
 class Solution {
     public boolean isCousins(TreeNode root, int x, int y) {
-        if(root == null)
-            return false;
-        Queue<TreeNode> q = new LinkedList<>();
-        q.offer(root);
-        
-        while(!q.isEmpty())  {
-            int size = q.size();
-            
-            boolean f = false;
-            boolean s = false;
-            System.out.println(size);
-            for(int i = 0; i < size; i++)    {
-                TreeNode cur = q.poll();
-                if(cur != null && cur.left != null && cur.right != null)    {
-                    if((cur.left.val == x && cur.right.val == y) || (cur.right.val == x && cur.left.val == y))    {
-                        return false;
-                    }
-                }
+            Queue<TreeNode> q = new LinkedList<>();
+            q.offer(root);
+
+            while(!q.isEmpty())  {
+                int n = q.size();
+                
+                boolean f = false;
+                boolean s = false;
+                
+                for(int i = 0; i < n; i++)  {
+                    TreeNode cur = q.poll();
+                    System.out.println(cur.val);
+                    boolean ab = false;
                     
+                    if((cur.left != null && cur.left.val == x) || (cur.right != null && cur.right.val == x))    {
+                        f = true;
+                        ab = true;
+                    }
+                    
+                    if(!ab && ((cur.left != null && cur.left.val == y) || (cur.right != null && cur.right.val == y)))
+                        s = true;
+                    
+                    if(cur.left != null)
+                        q.offer(cur.left);
+                    if(cur.right != null)
+                        q.offer(cur.right);
+                    
+                }
                 
-                if(cur.val == x)
-                    f = true;
-                if(cur.val == y)
-                    s = true;
+                if(f && s)
+                    return true;
                 
+                f = false;
+                s = false;
                 
-                if(cur.left != null)
-                    q.offer(cur.left);
-                if(cur.right != null)
-                    q.offer(cur.right);
             }
-            if(f && s)
-                return true;
-            if(f^s)
-                return false;
-            
-        }
+        
         return false;
     }
 }
