@@ -1,25 +1,32 @@
 class Solution {
     public int[][] kClosest(int[][] points, int k) {
-        
-		
-		PriorityQueue<int[]> heap = new PriorityQueue<>(
-				(p1, p2) -> p2[0] * p2[0] + p2[1] * p2[1] - p1[0] * p1[0] - p1[1] * p1[1]);
-
-		for (int[] cur : points) {
-
-			heap.offer(cur);
-			if (heap.size() > k)
-				heap.poll();
-
+		KClosest comp = new KClosest();
+		PriorityQueue<int[]> q = new PriorityQueue<>(comp);
+		int[][] res = new int[k][2];
+		for (int[] point : points) {
+			q.offer(point);
+			if (q.size() > k) {
+				q.poll();
+			}
 		}
 
-		int[][] ans = new int[heap.size()][2];
 		int index = 0;
-		for (int a[] : heap) {
-			ans[index++] = a;
+		while (!q.isEmpty()) {
+			int cur[] = q.poll();
+			res[index][0] = cur[0];
+			res[index][1] = cur[1];
+			index++;
 		}
-		return ans;
-	
-	
-    }
+
+		return res;
+	}
+
+	class KClosest implements Comparator<int[]> {
+
+		@Override
+		public int compare(int[] o1, int[] o2) {
+			return (o2[0] * o2[0] + o2[1] * o2[1] - o1[0] * o1[0] - o1[1] * o1[1]);
+		}
+
+	}
 }
