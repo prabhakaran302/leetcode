@@ -1,14 +1,17 @@
 class Solution {
     public boolean isSubsequence(String s, String t) {
-        Deque<Character> d = new LinkedList<>();
-        for(char c :  s.toCharArray())  {
-            d.offer(c);
-        }
-        for(char c :  t.toCharArray())  {
-            if(!d.isEmpty() && d.peekFirst() == c)  {
-                d.removeFirst();
+        int s1 = 0;
+        int t1 = 0;
+        
+        while(s1 < s.length() && t1 < t.length())   {
+            if(s.charAt(s1) == t.charAt(t1))    {
+                s1++;
+                t1++;
+            } else {
+                t1++;
             }
         }
-        return d.isEmpty();
+        
+        return s1 == s.length();
     }
 }
