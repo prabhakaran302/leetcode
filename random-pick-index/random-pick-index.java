@@ -2,13 +2,16 @@ class Solution {
     Map<Integer,List<Integer>> map;
     Random r;
     public Solution(int[] nums) {
-        map = new HashMap<>();
-        int i = 0;
-        for(int num : nums) {
-            map.computeIfAbsent(num, x -> new ArrayList<Integer>()).add(i);
-            i++;
-        }
         r = new Random();
+        int index = 0;
+        map = new HashMap<>();
+        for(int num : nums) {
+            if(!map.containsKey(num))
+                map.put(num, new ArrayList<>());
+            map.get(num).add(index);
+            index++;
+        }
+            
     }
     
     public int pick(int target) {
