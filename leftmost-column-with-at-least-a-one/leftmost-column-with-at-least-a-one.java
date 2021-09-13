@@ -9,28 +9,17 @@
 
 class Solution {
     public int leftMostColumnWithOne(BinaryMatrix binaryMatrix) {
-        List<Integer> dim = binaryMatrix.dimensions();
+        List<Integer> li = binaryMatrix.dimensions();
+        int row = 0;
+        int col = li.get(1) - 1;
         
-        int lowR = 0;
-        int highR = dim.get(0);
-        
-        int lowC = 0;
-        int highC = dim.get(1)-1;
-        
-        boolean found = false;
-        while(highC >= 0 && lowR < highR)   {
-            if(binaryMatrix.get(lowR, highC) == 1)   {
-                found = true;
-                highC--;
-            } else  {
-                lowR++;
-            }
+        while(row < li.get(0) && col >= 0)  {
+            if(binaryMatrix.get(row,col) == 1)
+                col--;
+            else
+                row++;
         }
         
-        if(found)
-            return highC+1;
-        
-        return -1;
-        
+        return col == li.get(1) - 1 ? -1 : col + 1;
     }
 }
