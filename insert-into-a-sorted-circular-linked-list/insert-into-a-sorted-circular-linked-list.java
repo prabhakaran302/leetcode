@@ -20,41 +20,41 @@ class Node {
 class Solution {
     public Node insert(Node head, int insertVal) {
         
-        if(head == null)    {
-            Node newN = new Node(insertVal);
-            newN.next = newN;
-            return newN;
-        }
-        
-		Node aHead = head;
-		Node prev = head;
-		Node cur = head.next;
+		if (head == null) {
+			Node n = new Node(insertVal);
+			n.next = n;
+			return n;
+		}
 
-		boolean toIns = false;
+		Node aHead = head;
+
+		Node cur = head.next;
+		Node prev = head;
+
+		boolean insert = false;
 
 		while (cur != aHead) {
-			if (prev.val <= insertVal && insertVal <= cur.val) {
-				toIns = true;
-			}
+			if (prev.val <= insertVal && cur.val >= insertVal)
+				insert = true;
 
-			if (prev.val > cur.val) {
-				if (prev.val < insertVal || insertVal < cur.val)
-					toIns = true;
-			}
+			if (prev.val > cur.val)
+				if (prev.val <= insertVal || cur.val >= insertVal)
+					insert = true;
 
-			if (toIns) {
-				Node newN = new Node(insertVal, cur);
-				prev.next = newN;
+			if (insert) {
+				Node n = new Node(insertVal);
+				prev.next = n;
+				n.next = cur;
 				return aHead;
 			}
-
 			prev = cur;
 			cur = cur.next;
 		}
-		
-		Node newN = new Node(insertVal, cur);
-		prev.next = newN;
 
+		Node n = new Node(insertVal);
+		prev.next = n;
+		n.next = cur;
+		
 		return aHead;
 	
     }
