@@ -1,24 +1,36 @@
 class Solution {
     public boolean checkInclusion(String s1, String s2) {
-        for(int i = 0; i <= s2.length() - s1.length(); i++)  {
-            if(isPerm(s1, s2.substring(i, i + s1.length())))
-                return true;
-        }
         
-        return false;
-    }
-    
-    public boolean isPerm(String s1, String s2) {
-        char[] c1 = s1.toCharArray();
-        char[] c2 = s2.toCharArray();
+		Map<Character, Integer> map = new HashMap<>();
+		if (s1.length() == 0 ^ s2.length() == 0)
+			return true;
+		if (s1.length() > s2.length())
+			return false;
+		for (char c : s1.toCharArray()) {
+			map.put(c, map.getOrDefault(c, 0) + 1);
+		}
+
+		for (int i = 0; i < s2.length() - s1.length() + 1; i++) {
+			String cur = s2.substring(i, i + s1.length());
+
+			Map<Character, Integer> curMap = new HashMap<>();
+			for (char c : cur.toCharArray()) {
+				curMap.put(c, curMap.getOrDefault(c, 0) + 1);
+			}
+
+
+			for (Map.Entry<Character, Integer> en : map.entrySet()) {
+					if (en.getValue().equals(curMap.get(en.getKey()))) {
+						curMap.remove(en.getKey());
+					}
+				}
+			if (curMap.size() == 0)
+				return true;
+
+		}
         
-        Arrays.sort(c1);
-        Arrays.sort(c2);
-        
-        for(int i = 0; i < c1.length; i++)
-            if(c1[i] != c2[i])
-                return false;
-        
-        return true;
+
+		return false;
+	
     }
 }
