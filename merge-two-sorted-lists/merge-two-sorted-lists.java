@@ -10,19 +10,22 @@
  */
 class Solution {
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
-        ListNode t;
-        if(l1 == null)
-            return l2;
-        if(l2 == null)
-            return l1;
-        if(l1 != null && l1.val < l2.val)   {
-            t = new ListNode(l1.val);
-            t.next = mergeTwoLists(l1.next, l2);
-        } else  {
-            t = new ListNode(l2.val);
-            t.next = mergeTwoLists(l1, l2.next);
+        if(l1 == null & l2 == null)
+            return null;
+        
+        if(l1 == null ^ l2 == null) {
+            return l1 == null ? l2 : l1; 
         }
         
-        return t;
+        ListNode n = new ListNode(Math.min(l1.val, l2.val));
+        
+        if(l1.val < l2.val) {
+            n.next = mergeTwoLists(l1.next, l2); 
+        } else  {
+            n.next = mergeTwoLists(l1, l2.next); 
+        }
+        
+        return n;
+        
     }
 }
