@@ -1,24 +1,24 @@
 class MovingAverage {
 
-    Deque<Integer> list;
-    double sum;
-    int s;
+    Queue<Integer> q;
+    double sum = 0;
+    int size;
     /** Initialize your data structure here. */
     public MovingAverage(int size) {
-        s = size;
-        list = new LinkedList<>();
         sum = 0;
+        this.size = size;
+        q = new LinkedList<>();
     }
     
     public double next(int val) {
-        if(list.size() == s)    {
-            sum -= list.getFirst();
-            list.removeFirst();
+        if(q.size() == size)    {
+            sum -= q.remove();
         }
-        list.addLast(val);
+        
         sum += val;
-        return sum/list.size();
-            
+        q.offer(val);
+        
+        return sum/q.size();
     }
 }
 
