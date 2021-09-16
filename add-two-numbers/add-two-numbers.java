@@ -10,26 +10,29 @@
  */
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        return addTwoNumbers(l1,l2,0);
+        int carry = 0;
+        return addTwoNumbers(l1,l2,carry);
     }
     
     public ListNode addTwoNumbers(ListNode l1, ListNode l2, int carry) {
         if(l1 == null && l2 == null)    {
-            if(carry == 1)
-                return new ListNode(1);
-            else
+            if(carry == 1)  {
+                ListNode n = new ListNode(carry);
+                return n;
+            } else
                 return null;
         }
-            
+        
         int sum = (l1 != null ? l1.val : 0) + (l2 != null ? l2.val : 0) + carry;
+        if(sum > 9)
+            carry = 1;
+        else
+            carry = 0;
         
-        ListNode n = new ListNode(sum%10);
-        int req = sum/10;
+        ListNode head = new ListNode(sum % 10);
+        head.next = addTwoNumbers(l1 != null ? l1.next : null, l2 != null ? l2.next : null, carry);
         
+        return head;
         
-        
-        n.next = addTwoNumbers(l1 != null ? l1.next : null,l2 != null ? l2.next : null, req);
-        
-        return n;
     }
 }
