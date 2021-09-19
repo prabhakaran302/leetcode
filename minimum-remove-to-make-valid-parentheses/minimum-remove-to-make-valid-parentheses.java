@@ -16,8 +16,7 @@ class Solution {
 			} else if (c == ')') {
 				
 				if (open <= 0) {
-					if (stack.isEmpty())
-						set.add(index++);
+					set.add(index++);
 					continue;
 				}
 				stack.pop();
