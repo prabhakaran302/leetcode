@@ -1,40 +1,33 @@
 class Solution {
     public String minRemoveToMakeValid(String s) {
+        Set<Integer> indexesToRemove = new HashSet<>();
         
-		Stack<Integer> stack = new Stack<>();
-		StringBuilder res = new StringBuilder();
-
-		Set<Integer> set = new HashSet<>();
-
-		int open = 0;
-
-		int index = 0;
-		for (char c : s.toCharArray()) {
-			if (c == '(') {
-				open++;
-				stack.push(index);
-			} else if (c == ')') {
-				
-				if (open <= 0) {
-					set.add(index++);
-					continue;
-				}
-				stack.pop();
-				open--;
-			
-			}
-			index++;
-		}
-
-		while (!stack.isEmpty())
-			set.add(stack.pop());
-
-		for (int i = 0; i < s.length(); i++) {
-			if (!set.contains(i))
-				res.append(s.charAt(i));
-		}
-
-		return res.toString();
-	
+        int open = 0;
+        Stack<Integer> stack = new Stack<>();
+        for(int i = 0; i < s.length(); i++) {
+            if(s.charAt(i) == '(')  {
+                stack.push(i);
+                open++;
+            } else if(s.charAt(i) == ')')   {
+                open--;
+                if(open == -1)  {
+                    indexesToRemove.add(i);
+                    open = 0;
+                } else  {
+                    stack.pop();
+                }
+            }
+        }
+        
+        while(!stack.isEmpty())
+            indexesToRemove.add(stack.pop());
+        
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < s.length(); i++) {
+            if(!indexesToRemove.contains(i))
+                sb.append(s.charAt(i));
+        }
+        
+        return sb.toString();
     }
 }
