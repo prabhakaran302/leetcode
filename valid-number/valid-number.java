@@ -1,35 +1,36 @@
 class Solution {
     public boolean isNumber(String s) {
         
+		
 		boolean seenDigit = false;
 		boolean seenExpo = false;
 		boolean seenDot = false;
+        
+        int index = 0;
 
-		for (int i = 0; i < s.length(); i++) {
-			if (Character.isDigit(s.charAt(i))) {
+		for (char ch : s.toCharArray()) {
+			if (Character.isDigit(ch)) {
 				seenDigit = true;
-			} else if (s.charAt(i) == '-' || s.charAt(i) == '+') {
-				if (i == 0)
-					continue;
-				if(s.charAt(i - 1) != 'e' && s.charAt(i - 1) != 'E')
-					return false;
-			} else if (s.charAt(i) == 'e' || s.charAt(i) == 'E') {
-                if (!seenDigit)
-					return false;
-				if (seenExpo)
+			} else if (ch == 'e' || ch == 'E') {
+				if (seenExpo || !seenDigit)
 					return false;
 				seenExpo = true;
 				seenDigit = false;
-			} else if (s.charAt(i) == '.') {
-				if (seenExpo || seenDot)
+			} else if (ch == '.') {
+				if (seenDot || seenExpo)
 					return false;
 				seenDot = true;
-			} else  {
-                return false;
-            }
+			} else if (ch == '+' || ch == '-') {
+                if(index != 0 && (s.charAt(index - 1) != 'e' && s.charAt(index - 1) != 'E'))
+                    return false;
+			} else {
+				return false;
+			}
+            index++;
 		}
 
 		return seenDigit;
+	
 	
     }
 }
