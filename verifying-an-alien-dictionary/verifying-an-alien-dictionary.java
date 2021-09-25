@@ -6,30 +6,29 @@ class Solution {
 			map.put(c, index++);
 		}
 
-		for (int i = 0; i < words.length - 1; i++) {
-			if (!isAlienSortedUtil(words[i], words[i + 1], map))
+		for (int i = 1; i < words.length; i++) {
+			String w1 = words[i - 1];
+			String w2 = words[i];
+			if (!isAlienSortedUtil(w1, w2, map)) {
 				return false;
+			}
 		}
 		return true;
 	}
 
 	private boolean isAlienSortedUtil(String str1, String str2, Map<Character, Integer> map) {
-		for (int i = 0; i < Math.min(str1.length(), str2.length()); i++) {
-			char c1 = str1.charAt(i);
-			char c2 = str2.charAt(i);
-
-			if (c1 == c2)
-				continue;
-
-			if (c1 != c2 && map.get(c1) > map.get(c2)) {
-				return false;
-			} else
-				return true;
-		}
-
-		if (str1.length() > str2.length())
+		if (str1.length() > str2.length() && str1.startsWith(str2))
 			return false;
 
+		for (int i = 0; i < Math.min(str1.length(), str2.length()); i++) {
+			if (str1.charAt(i) != str2.charAt(i)) {
+				if(map.get(str1.charAt(i)) > map.get(str2.charAt(i)))
+                    return false;
+                else
+                    return true;
+                    
+			}
+		}
 		return true;
 	}
 }
