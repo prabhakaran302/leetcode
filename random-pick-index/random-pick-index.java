@@ -1,22 +1,22 @@
 class Solution {
-    Map<Integer, List<Integer>> map;
-	Random r;
+    private HashMap<Integer, List<Integer>> indices;
+    private Random rand;
     public Solution(int[] nums) {
-        
-		map = new HashMap<>();
-		r = new Random();
-		int index = 0;
-		for (int num : nums) {
-			map.computeIfAbsent(num, x -> new ArrayList<>()).add(index);
-			index++;
-		}
-	
+        rand = new Random();
+        indices = new HashMap<Integer, List<Integer>>();
+        int l = nums.length;
+        for (int i = 0; i < l; ++i) {
+            if (!indices.containsKey(nums[i])) {
+                indices.put(nums[i], new ArrayList<>());
+            }
+            indices.get(nums[i]).add(i);
+        }
     }
     
     public int pick(int target) {
-        
-		return map.get(target).get(r.nextInt(map.get(target).size()));
-	
+        int l = indices.get(target).size();
+        int randomIndex = indices.get(target).get(rand.nextInt(l));
+        return randomIndex;
     }
 }
 
