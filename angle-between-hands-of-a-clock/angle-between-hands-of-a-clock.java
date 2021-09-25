@@ -1,15 +1,11 @@
 class Solution {
     public double angleClock(int hour, int minutes) {
-        double res = 0;
-        int minangle = 6;
-        int hrangle = 30;
         
-        double hranglepermin = ((hour % 12) * 30) + (minutes * 0.5);
-        System.out.println(hranglepermin);
-        double minres = minutes*6;
+        double ma = minutes * 6;
+        double ha = ((hour%12) + (minutes/60.0))*30;
         
-        res = Math.min(360-Math.abs(hranglepermin-minres), Math.abs(hranglepermin-minres));
+        double diff = Math.abs(ma - ha);
         
-        return res;
+        return Math.min(diff, 360 - diff);
     }
 }
