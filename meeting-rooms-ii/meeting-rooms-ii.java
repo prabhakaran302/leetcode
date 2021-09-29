@@ -1,38 +1,45 @@
 class Solution {
     public int minMeetingRooms(int[][] intervals) {
-        if(intervals.length <= 1)
-            return intervals.length;
-        
-        List<Integer> start = new ArrayList<>();
-        List<Integer> end = new ArrayList<>();
-        
-        for(int [] interval : intervals)    {
-            start.add(interval[0]);
-            end.add(interval[1]);
+        List<Interval> li = new ArrayList<>();
+        for(int[] cur :  intervals)    {
+            Interval i1 = new Interval(cur[0] , "start");
+            Interval i2 = new Interval(cur[1] , "end");
+            li.add(i1);
+            li.add(i2);
         }
+        Collections.sort(li, (a,b) -> (a.val == b.val ? (a.type.equals("start") ? 1 : -1) : (a.val - b.val)));
         
-        Collections.sort(start);
-        Collections.sort(end);
-        
-        int i = 0;
-        int j = 0;
-        
-        int count = 0;
+        int result = 0;
         int max = 0;
+        for(Interval i : li)    {
+            if(i.type.equals("start"))
+                result++;
+            else
+                result--;
+            max = Math.max(max,result);
+        }
+        return max;
+    }
+    
+    
+    class Interval implements Comparable<Interval> {
+        int val;
+        String type;
         
-        while(i < start.size() && j < start.size())    {
-            if(start.get(i) < end.get(j))   {
-                count++;
-                i++;
-            } else  {
-                count--;
-                j++;
-            }
-            max = Math.max(max,count);
+        Interval(int v, String t) {
+            val = v;
+            type = t;
         }
         
-        
-        
-        return max;
+        public int compareTo(Interval v)    {
+            if(this.val == v.val)   {
+                if(this.type.equals("start"))
+                    return 1;
+                else
+                    return -1;
+            } else  {
+                return this.val - v.val;
+            }
+        }
     }
 }
