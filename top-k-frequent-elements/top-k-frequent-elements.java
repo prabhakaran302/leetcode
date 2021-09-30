@@ -1,26 +1,22 @@
-import java.util.Map;
-import java.util.Map.Entry;
 class Solution {
     public int[] topKFrequent(int[] nums, int k) {
+        Map<Integer,Integer> map = new HashMap<>();
+        for(int n : nums)
+            map.put(n, map.getOrDefault(n,0)+1);
         
-		Map<Integer, Integer> map = new HashMap<>();
-		for (int i : nums) {
-			map.put(i, map.getOrDefault(i, 0) + 1);
-		}
-
-		Map<Integer, Integer> ml = map.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
-
-		int[] res = new int[k];
-		int index = 0;
-		for (Map.Entry<Integer, Integer> m : ml.entrySet()) {
-            res[index] = m.getKey();
-            index++;
-            if(index == k)
-                break;
+        
+        PriorityQueue<Map.Entry<Integer,Integer>> q = new PriorityQueue<>((a,b)->a.getValue().compareTo(b.getValue()));
+        for(Map.Entry<Integer,Integer> en : map.entrySet()) {
+            q.offer(en);
+            if(q.size() > k)
+                q.poll();
         }
         
+        int [] res = new int[q.size()];
+        int index = 0;
+        while(!q.isEmpty())
+            res[index++] = q.poll().getKey();
+        
         return res;
-	
     }
 }
