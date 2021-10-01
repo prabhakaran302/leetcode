@@ -1,29 +1,28 @@
 class Solution {
-
-    int[] prefix;
-    int totalSum;
+    int [] prefixSum;
+    int ts = 0;
     public Solution(int[] w) {
-        prefix = new int[w.length];
-        int sum = 0;
-        
-        for(int i = 0; i < w.length; i++)   {
-            sum += w[i];
-            prefix[i] = sum;
+        int ind = 0;
+        prefixSum = new int[w.length];
+        for(int i : w)  {
+            ts += i;
+            prefixSum[ind++] = ts;
+            
         }
-        totalSum = sum;
     }
     
     public int pickIndex() {
-        double ran = totalSum*Math.random();
-        int low = 0;
-        int high = prefix.length - 1;
-        
+        double val = Math.random() * ts;
+        int low  = 0;
+        int high = prefixSum.length;
         while(low < high)   {
             int mid = low + (high-low)/2;
-            if(prefix[mid] < ran)
-                low = mid+1;
-            else
+            if(val > prefixSum[mid])    {
+                low = mid + 1;
+            } else  {
                 high = mid;
+            }
+            
         }
         return low;
     }
