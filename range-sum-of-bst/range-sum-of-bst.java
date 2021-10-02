@@ -20,25 +20,22 @@ class Solution {
         return sum;
     }
     
-    
     public void rangeSumBSTUtil(TreeNode root, int low, int high) {
-        if(root != null)    {
-            if(root.val >= low && root.val <= high)
-                sum += root.val;
-            
-            if(root.val >= low && root.val <= high){
-                rangeSumBSTUtil(root.right, low, high);
-                rangeSumBSTUtil(root.left, low, high);
-            }
-            if(root.val < low)  {
-                rangeSumBSTUtil(root.right, low, high);
-            }
-            if(root.val > high)  {
-                rangeSumBSTUtil(root.left, low, high);
-            }
+        if(root == null)
+            return;
+        
+        if(root.val >= low && root.val <= high) {
+            sum += root.val;
+            rangeSumBSTUtil(root.left, low, high);
+            rangeSumBSTUtil(root.right, low, high);
             
         }
         
+        if(root.val > high)
+            rangeSumBSTUtil(root.left, low, high);
+        
+        if(root.val < low)
+            rangeSumBSTUtil(root.right, low, high);
+            
     }
-    
 }
