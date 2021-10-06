@@ -1,39 +1,31 @@
 class Solution {
     public boolean isBipartite(int[][] graph) {
+        int[] visited = new int[graph.length];
         
-
-		Map<Integer, Integer> map = new HashMap<>();
-		int curr = 1;
-
-		for (int i = 0; i < graph.length; i++) {
-            if(map.get(i) == null)  {
+        for (int i = 0; i < graph.length; i++) {
+            if (graph[i].length != 0 && visited[i] == 0) {
+                visited[i] = 1;
+                
                 Queue<Integer> q = new LinkedList<>();
-			    q.offer(i);
-            
-            
-			    map.put(i, curr);
+                q.offer(i);
+                
+                while(! q.isEmpty()) {
+                    int current = q.poll();
+                    for (int c: graph[current]) {
 
-			    while (!q.isEmpty()) {
-				    int pele = q.poll();
-
-				    for (int ele : graph[pele]) {
-						if (!map.containsKey(ele)) {
-							int nc = map.get(pele).compareTo(1) == 0 ? 2 : 1;
-							map.put(ele, nc);
-							q.offer(ele);
-						} else if (map.get(ele).compareTo(map.get(pele)) == 0) {
-							return false;
-						}
-					}
-			    }
-		   
-                curr = curr == 1 ? 2 : 1;
-            
-            
-            
+                            if (visited[c] == 0) {
+                                visited[c] = (visited[current] == 1) ? 2 : 1;
+                                q.offer(c);
+                            } else {
+                                if (visited[c] == visited[current]) 
+                                    return false;
+                            }
+                    }
+                }                        
+                
             }
         }
-		return true;
-	
+        
+        return true;
     }
 }
