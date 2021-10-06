@@ -9,45 +9,25 @@
  * }
  */
 class Solution {
+    ListNode front;
+    boolean fval;
     public boolean isPalindrome(ListNode head) {
-        ListNode origHead = head;
-        
-        ListNode mid = findMid(head);
-        ListNode nH = mid.next;
-        
-        mid.next = null;
-        
-        ListNode revHead = reverse(nH);
-        
-        while(origHead != null && revHead != null) {
-            if(origHead.val != revHead.val)
-                return false;
-            origHead = origHead.next;
-            revHead = revHead.next;
-        }
-        
-        return true;
-    }
+        front = head;
+		fval = true;
+		isPalindromeUtil(head);
+		return fval;
+	}
+
+	private void isPalindromeUtil(ListNode head) {
+		if (head == null)
+			return;
+		isPalindromeUtil(head.next);
+		if (front.val != head.val) {
+			fval = false;
+			return;
+		}
+		front = front.next;
+	}
     
-    public ListNode findMid(ListNode cur) {
-        ListNode f = cur;
-        ListNode s = cur;
-        while(f != null && f.next != null && f.next.next != null)  {
-            f = f.next.next;
-            s = s.next;
-        }
-        return s;
-    }
     
-    public ListNode reverse(ListNode cur) {
-        ListNode prev = null;
-        ListNode next = null;
-        while(cur != null)  {
-            next = cur.next;
-            cur.next = prev;
-            prev = cur;
-            cur = next;
-        }
-        return prev;
-    }
 }
