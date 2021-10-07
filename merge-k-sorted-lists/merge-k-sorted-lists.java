@@ -10,41 +10,27 @@
  */
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
+        PriorityQueue<ListNode> q = new PriorityQueue<>((a,b)->(a.val - b.val));
         
-		ListNode result = new ListNode(-1);
-		ListNode curr = result;
+        ListNode dummy = new ListNode(-1);
+        ListNode res = dummy;
+        
+        for(int i = 0; i < lists.length;i++)    {
+            if(lists[i] != null)
+                q.offer(lists[i]);
+        }
+        
+        while(!q.isEmpty()) {
+            ListNode cur = q.poll();
+            
+            res.next = cur;
+            res = res.next;
 
-		PriorityQueue<QNode> q = new PriorityQueue<>((a, b) -> a.val - b.val);
-		for (int i = 0; i < lists.length; i++) {
-			if (lists[i] != null) {
-				QNode node = new QNode();
-				node.val = lists[i].val;
-				node.node = lists[i];
-
-				q.offer(node);
-			}
-		}
-
-		while (!q.isEmpty()) {
-			QNode cur = q.remove();
-			curr.next = new ListNode(cur.val);
-			curr = curr.next;
-
-			ListNode t = cur.node;
-			if (t != null && t.next != null) {
-				QNode node = new QNode();
-				node.val = t.next.val;
-				node.node = t.next;
-
-				q.offer(node);
-			}
-		}
-		return result.next;
-	
-    }
-    
-    class QNode {
-        int val;
-        ListNode node;
+            if(cur != null && cur.next != null)
+                q.offer(cur.next);
+        }
+        
+        
+        return dummy.next;
     }
 }
