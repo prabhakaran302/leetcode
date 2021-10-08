@@ -1,54 +1,61 @@
 class Solution {
     public List<String> wordBreak(String s, List<String> wordDict) {
-		Set<String> set = new LinkedHashSet<String>(wordDict);
-		List<String> list = new ArrayList<>();
-
-		List<String>[] dp = new ArrayList[s.length() + 1];
-		dp[0] = new ArrayList<String>();
-
-		for (int i = 0; i < s.length(); i++) {
-			for (String cur : set) {
-				if (i + cur.length() >= dp.length)
-					continue;
-
-				int begin = i;
-				int end = i + cur.length();
-
-				if (cur.equals(s.substring(begin, end))) {
-					if (dp[end] == null) {
-						dp[end] = new ArrayList<String>();
-					}
-					dp[end].add(s.substring(begin, end));
-				}
-
-			}
-		}
-
-		if (dp[dp.length - 1] == null)
-			return list;
-
-		List<String> temp = new ArrayList<>();
-		dfs(dp, s.length(), temp, list);
-		return list;
-	}
-
-	private void dfs(List<String>[] dp, int length, List<String> temp, List<String> list) {
-		if (dp[length] == null)
-			return;
-        if (length <= 0) {
-			
-			String path = temp.get(temp.size() - 1);
-			for (int i = temp.size() - 2; i >= 0; i--) {
-				path = path + " " + temp.get(i);
-			}
-			list.add(path);
-			return;
-		
-		}
-		for (int i = 0; i < dp[length].size(); i++) {
-			temp.add(dp[length].get(i));
-			dfs(dp, length - dp[length].get(i).length(), temp, list);
-			temp.remove(temp.size() - 1);
-		}
-	}
+        List<String> [] dp = new ArrayList[s.length() + 1];
+        List<String> result = new ArrayList<>();
+        
+        Set<String> dict = new HashSet<>(wordDict);
+        
+        dp[0] = new ArrayList<>();
+            
+        for(int i = 0; i < s.length(); i++) {
+            if(dp[i] == null)
+                continue;
+            
+            for(String cur : dict)  {
+                int end = cur.length();
+                
+                if(i + end <= s.length())   {
+                    if(s.substring(i, i + end).equals(cur))  {
+                        if(dp[i + end] == null)
+                            dp[i + end] = new ArrayList<>();
+                        
+                        dp[i + end].add(s.substring(i, i + end));
+                    }
+                }
+            }
+        }
+        
+        System.out.println(Arrays.deepToString(dp));
+        
+        if(dp[dp.length - 1] == null)
+            return result;
+        
+        List<String> temp = new ArrayList<>();
+        backtrack(dp, dp.length - 1, result, temp);
+        return result;
+    }
+    
+    public void backtrack(List<String> [] dp, int index, List<String> result, List<String> temp) {
+        if(index <= 0)  {
+            StringBuilder sb = new StringBuilder();
+            
+            for(int i = temp.size() - 1; i >= 0; i--)   {
+                String s = temp.get(i);
+                sb.append(s + " ");
+            }
+                
+            
+            result.add(sb.substring(0, sb.length() - 1).toString());
+            
+            return;
+        }
+        
+        for(String str : dp[index]) {
+            temp.add(str);
+            backtrack(dp, index - str.length(), result, temp);
+            temp.remove(temp.size() - 1);
+        } 
+    }
+        
+    
 }
