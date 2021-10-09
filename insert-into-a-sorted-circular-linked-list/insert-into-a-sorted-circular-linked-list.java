@@ -24,30 +24,33 @@ class Solution {
             n.next = n;
             return n;
         }
-        Node prev = head;
+        
+        Node cur = head;
         Node next = head.next;
         
         boolean toInsert = false;
         
-        while(next != head)    {
-            if(prev.val <= insertVal && next.val >= insertVal)    {
+        while(next != head) {
+            if(cur.val <= insertVal && insertVal <= next.val) {
                 toInsert = true;
-            } else if(prev.val > next.val) {
-                if (insertVal >= prev.val || insertVal <= next.val)
+            } else if(cur.val> next.val)  {
+                if(insertVal >= cur.val || insertVal <= next.val)
                     toInsert = true;
             }
             
-            
             if(toInsert)    {
-                prev.next = new Node(insertVal, next);
+                Node n = new Node(insertVal, next);
+                cur.next = n;
                 return head;
             }
-            
-            prev = next;
+            cur = next;
             next = next.next;
         }
         
-        prev.next = new Node(insertVal, next);
+        Node n = new Node(insertVal, next);
+        cur.next = n;
         return head;
+        
+        
     }
 }
